@@ -44,6 +44,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV CONTAINER=true
+ENV PUPPETEER_DANGEROUS_NO_SANDBOX=true
 
 # ── Install chrome-headless-shell for BeginFrame rendering ───
 RUN npx --yes @puppeteer/browsers install chrome-headless-shell@stable \
