@@ -1,0 +1,48 @@
+# ──────────────────────────────────────────────────────────────
+# HyperFrames Render Server — Docker Compose for Coolify
+# ──────────────────────────────────────────────────────────────
+# Deploy this via Coolify as a Docker Compose service
+# Set domain to: https://hyperframes.anagataitsolutions.in
+# ──────────────────────────────────────────────────────────────
+
+services:
+  hyperframes-render-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9847:9847"
+    environment:
+      - PRODUCER_PORT=9847
+      - PRODUCER_RENDERS_DIR=/app/renders
+      - PRODUCER_MAX_CONCURRENT_RENDERS=2
+      - PRODUCER_OUTPUT_ARTIFACT_TTL_MS=900000
+      - NODE_ENV=production
+      - CONTAINER=true
+    volumes:
+      - renders_data:/app/renders
+      - outputs_data:/app/outputs
+    # Chromium needs --no-sandbox in Docker or seccomp=unconfined
+    security_opt:
+      - seccomp=unconfined
+    # Shared memory for Chromium
+    shm_size: "2gb"
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+          cpus: "4"
+        reservations:
+          memory: 4G
+          cpus: "2"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9847/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  renders_data:
+  outputs_data:

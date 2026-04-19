@@ -1,0 +1,22 @@
+{
+  "name": "hyperframes-render-server",
+  "version": "1.0.0",
+  "description": "Self-hosted HyperFrames HTML-to-video rendering API server",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs"
+  },
+  "dependencies": {
+    "@hyperframes/producer": "^0.4.6",
+    "@hyperframes/core": "^0.4.6",
+    "@hono/node-server": "^1.13.0",
+    "hono": "^4.6.0",
+    "puppeteer": "^24.0.0",
+    "puppeteer-core": "^24.39.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
